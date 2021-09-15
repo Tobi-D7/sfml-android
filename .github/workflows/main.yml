@@ -9,9 +9,9 @@ jobs:
   my_android_job:
     runs-on: ubuntu-18.04 # Works also with self hosted runner supporting docker
     
-  steps:
-  - uses: actions/checkout@v2
-  - uses: nttld/setup-ndk@v1
-    with:
-      ndk-version: r21e
-  - runs: ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./app/main/src/jni/Android.mk NDK_APPLICATION_MK=./app/main/src/jni/Application.mk
+    steps:
+    - uses: actions/checkout@v2
+    - uses: nttld/setup-ndk@v1
+      with:
+        ndk-version: r21e
+    - runs: ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./app/main/src/jni/Android.mk NDK_APPLICATION_MK=./app/main/src/jni/Application.mk

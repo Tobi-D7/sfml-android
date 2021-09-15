@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-18.04 # Works also with self hosted runner supporting docker
 
   steps:
-    - name: Checkout
+  - name: Checkout
       uses: actions/checkout@v2.1.0
 
-    - name: Exec fastlane
+  - name: Exec fastlane
       uses: fabernovel/docker-android
       with:
         docker-android-tag: api-29-ndk-v1.1.0

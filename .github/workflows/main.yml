@@ -1,17 +1,27 @@
-name: GitHub Action sample
-
+name: 'build-test'
 on:
+  pull_request:
   push:
     branches:
       - main
 
 jobs:
-  my_android_job:
-    runs-on: ubuntu-18.04 # Works also with self hosted runner supporting docker
-    
+  build:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: nttld/setup-ndk@v1
-      with:
-        ndk-version: r21e
-    - runs: ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./app/main/src/jni/Android.mk NDK_APPLICATION_MK=./app/main/src/jni/Application.mk
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run all
+  test-single:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ndk: [r21e, r23]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: install-ndk
+        with:
+          ndk-version: ${{ matrix.ndk }}
+      - run: ndk-build --version
+      - run: ${{ steps.install-ndk.outputs.ndk-path }}/ndk-build --version

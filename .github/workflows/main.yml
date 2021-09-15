@@ -9,19 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: npm install
-      - run: npm run all
-  test-single:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ndk: [r21e, r23]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        id: install-ndk
-        with:
-          ndk-version: ${{ matrix.ndk }}
-      - run: ndk-build --version
-      - run: ${{ steps.install-ndk.outputs.ndk-path }}/ndk-build --version
+    - uses: actions/checkout@v2
+    - uses: nttld/setup-ndk@v1
+      with:
+        ndk-version: r21e
+    - runs: ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk NDK_APPLICATION_MK=./Application.mk
